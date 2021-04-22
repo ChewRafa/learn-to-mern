@@ -36,9 +36,9 @@ const SecondStep = (props) => {
         <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type=""
-            name=""
-            placeholder=""
+            type="password"
+            name="user_password"
+            placeholder="Choose a password."
             autoComplete="off"
             ref={register({
               required: "Password is required",

@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 const AppRouter = () => (
   <BrowserRouter>
-	<div classname="container">
+	<div className="container">
 	<Header/>
 	<Switch>
 		<Route component={FirstStep} path="/" exact={true} />

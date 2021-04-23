@@ -36,7 +36,6 @@ const ThirdStep = (props) => {
         setIsLoading(false);
       }
     };
-
     getCountries();
   }, []);
 
@@ -64,9 +63,32 @@ const ThirdStep = (props) => {
     getStates();
   }, [selectedCountry]);
 
+  useEffect(() => {
+    const getCities = async () => {
+      try {
+        const result = await csc.getCitiesOfState(
+          selectedCountry,
+          selectedState
+        );
+
+        let allCities = [];
+        allCities = result?.map(({ name }) => ({
+          name
+        }));
+        const [{ name: firstCity = '' } = {}] = allCities;
+        setCities(allCities);
+        setSelectedCity(firstCity);
+      } catch (error) {
+        setCities([]);
+      }
+    };
+    getCities();
+  }, [selectedState]);
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
   };
+
 
   return (
     <Form className="input-form" onSubmit={handleSubmit}>
@@ -89,28 +111,28 @@ const ThirdStep = (props) => {
             ))}
           </Form.Control>
         </Form.Group>
-      <Form.Group>
-        <Form.Label>State</Form.Label>
-        <Form.Control
-        as="select"
-        name="state"
-        value= {selectedState}
-        onChange={(event) => setSelectedState(event.target.value)}
-        >
-          {states.length > 0 ? 
-          (
-            states.map(({isoCode, name}) => (
-              <option value={isoCode} key={isoCode}>
-                {name}
-              </option>
-            ))
-          ): (
-            <option value="" key="">
-              No state fonund
-            </option>
-          )}
-        </Form.Control>
-      </Form.Group>
+        <Form.Group>
+          <Form.Label>State</Form.Label>
+          <Form.Control
+            as="select"
+            name="state"
+            value={selectedState}
+            onChange={(event) => setSelectedState(event.target.value)}
+          >
+            {states.length > 0 ?
+              (
+                states.map(({ isoCode, name }) => (
+                  <option value={isoCode} key={isoCode}>
+                    {name}
+                  </option>
+                ))
+              ) : (
+                <option value="" key="">
+                  No state fonund
+                </option>
+              )}
+          </Form.Control>
+        </Form.Group>
       </div>
     </Form>
   );

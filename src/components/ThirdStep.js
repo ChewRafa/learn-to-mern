@@ -133,6 +133,28 @@ const ThirdStep = (props) => {
               )}
           </Form.Control>
         </Form.Group>
+        <Form.Group controlId="city">
+          <Form.Label>City</Form.Label>
+          <Form.Control
+          as="select"
+          name="city"
+          value={selectedCity}
+          onChange={(event)=> setSelectedCity(event.target.value)}
+          >
+          {cities.length > 0 ? (
+            cities.map(({name}) =>(
+              <option value={name} key={name}>
+                {name}
+              </option>
+            ))
+          ):(
+            <option value="">No cities found</option>
+          )};
+          </Form.Control>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Register
+        </Button>
       </div>
     </Form>
   );

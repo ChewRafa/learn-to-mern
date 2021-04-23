@@ -40,6 +40,30 @@ const ThirdStep = (props) => {
     getCountries();
   }, []);
 
+  useEffect(() => {
+    const getStates = async () => {
+      try {
+        const result = await csc.getStatesOfCountry(selectedCountry);
+        let allStates = [];
+        allStates = result?.map(({ isoCode, name }) => ({
+          isoCode,
+          name
+        }));
+        console.log({ allStates });
+        const [{ isoCode: firstState = '' } = {}] = allStates;
+        setCities([]);
+        setSelectedCity('');
+        setStates(allStates);
+        setSelectedState(firstState);
+      } catch (error) {
+        setStates([]);
+        setCities([]);
+        setSelectedCity('');
+      }
+    };
+    getStates();
+  }, [selectedState]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
   };
@@ -58,7 +82,7 @@ const ThirdStep = (props) => {
             value={selectedCountry}
             onChange={(event) => setSelectedCountry(event.target.value)}
           >
-            {countries.map(({isoCode, name})=> (
+            {countries.map(({ isoCode, name }) => (
               <option value={isoCode} key={isoCode}>
                 {name}
               </option>

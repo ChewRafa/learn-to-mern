@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import csc from 'country-state-city';
 import axios from 'axios';
 import { BASE_API_URL } from '../utils/consants';
+import { motion } from 'framer-motion';
 
 
 const ThirdStep = (props) => {
@@ -84,7 +85,7 @@ const ThirdStep = (props) => {
     };
     getCities();
   }, [selectedState]);
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
   };
@@ -92,7 +93,13 @@ const ThirdStep = (props) => {
 
   return (
     <Form className="input-form" onSubmit={handleSubmit}>
-      <div className="col-md-6 offset-md-3">
+      <motion.div
+        className="col-md-6 offset-md-3"
+        className="col-md-6 offset-md-3"
+        initial={{ x: '-100vw' }}
+        animate={{ x: 0 }}
+        transition={{ stiffness: 150 }}
+      >
         <Form.Group controlId="country">
           {isLoading && (
             <p className="loading">Loading countries. Please wait...</p>
@@ -136,26 +143,26 @@ const ThirdStep = (props) => {
         <Form.Group controlId="city">
           <Form.Label>City</Form.Label>
           <Form.Control
-          as="select"
-          name="city"
-          value={selectedCity}
-          onChange={(event)=> setSelectedCity(event.target.value)}
+            as="select"
+            name="city"
+            value={selectedCity}
+            onChange={(event) => setSelectedCity(event.target.value)}
           >
-          {cities.length > 0 ? (
-            cities.map(({name}) =>(
-              <option value={name} key={name}>
-                {name}
-              </option>
-            ))
-          ):(
-            <option value="">No cities found</option>
-          )};
+            {cities.length > 0 ? (
+              cities.map(({ name }) => (
+                <option value={name} key={name}>
+                  {name}
+                </option>
+              ))
+            ) : (
+              <option value="">No cities found</option>
+            )};
           </Form.Control>
         </Form.Group>
         <Button variant="primary" type="submit">
           Register
         </Button>
-      </div>
+      </motion.div>
     </Form>
   );
 

@@ -6,7 +6,7 @@ const FirstStep = (props) => {
   const {register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    props.updateUser(data);
     props.history.push('/second');
   }
 

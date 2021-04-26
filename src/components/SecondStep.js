@@ -3,7 +3,13 @@ import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
 
 const SecondStep = (props) => {
-  const { register, handleSubmit, errors } = useForm();
+  const { user } = props;
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: {
+      user_email: user.user_email,
+      user_password: user.user_password
+    }
+  });
 
   const onSubmit = (data) => {
     props.updateUser(data);

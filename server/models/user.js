@@ -1,28 +1,54 @@
-const express = require('express');
-const User = require('../models/user');
-const bcrypt = require('bcryptjs')
-const router = express.Router();
+const mongoose = require('mongoose');
 
-router.post('/register', async (req, res) => {
-  const { user_email, user_password } = req.body;
-  console.log('req.body', req.body);
-
-  let user = await User.findOne({ user_email });
-
-  if (user) {
-    return res.status(400).send('User with the provided email already exists.');
+const userSchema = mongoose.Schema(
+  {
+    first_name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    last_name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    user_email: {
+      type: String,
+      required: true,
+      trim: true,
+      validate(value) {
+        if (!value.match(/^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/)) {
+          throw new error('email is not valid');
+        }
+      }
+    },
+    user_password: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 6
+    },
+    country: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    state: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    city: {
+      type: String,
+      required: true,
+      trim: true
+    }
+  },
+  {
+    timestamps: true
   }
-  try {
-    user = new User(req.body);
-    user.user_password = await bcrypt.hash(user_password, 8);
+);
 
-    await user.save();
-    res.status(201).send();
+const User = mongoose.model('User', userSchema);
 
-  } catch (error) {
-    res.status(500).send('Something went wrong. Try again later' + error)
-  }
-
-});
-
-module.exports = router;
+module.exports = User;

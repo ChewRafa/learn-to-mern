@@ -1,5 +1,6 @@
 const express = require('express');
 const userRouter = require('./routers/user');
+const cors = require('cors');
 require('./db');
 
 const app = express();
@@ -7,6 +8,8 @@ const PORT = process.env.PORT || 3030;
 
 app.use(express.json());
 
+//enables same-site requests
+app.use(cors());
 //allows to make API requests
 app.use(userRouter);
 

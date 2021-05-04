@@ -39,7 +39,7 @@ const AppRouter = () => {
 					/>
 					<Route
 						render={(props) => (
-							<ThirdStep {...props} user={user} />
+							<ThirdStep {...props} user={user} resetUser={resetUser} />
 						)}
 						path="/third"
 						exact={true}

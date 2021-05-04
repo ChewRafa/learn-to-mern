@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import csc from 'country-state-city';
 import axios from 'axios';
-import { BASE_API_URL } from '../utils/consants';
+import { BASE_API_URL } from '../utils/constants';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
 

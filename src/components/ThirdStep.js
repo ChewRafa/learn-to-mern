@@ -15,7 +15,6 @@ const ThirdStep = (props) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
-  const [] = useState();
 
   useEffect(() => {
     const getCountries = async () => {
@@ -37,6 +36,7 @@ const ThirdStep = (props) => {
         setIsLoading(false);
       }
     };
+
     getCountries();
   }, []);
 
@@ -61,6 +61,7 @@ const ThirdStep = (props) => {
         setSelectedCity('');
       }
     };
+
     getStates();
   }, [selectedCountry]);
 
@@ -71,7 +72,6 @@ const ThirdStep = (props) => {
           selectedCountry,
           selectedState
         );
-
         let allCities = [];
         allCities = result?.map(({ name }) => ({
           name
@@ -83,11 +83,13 @@ const ThirdStep = (props) => {
         setCities([]);
       }
     };
+
     getCities();
   }, [selectedState]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       const { user } = props;
       const updatedData = {
@@ -95,7 +97,7 @@ const ThirdStep = (props) => {
           (country) => country.isoCode === selectedCountry
         )?.name,
         state:
-          states.find((state) => state.isoCode === selectedState)?.name || '',
+          states.find((state) => state.isoCode === selectedState)?.name || '', // or condition added because selectedState might come as undefined
         city: selectedCity
       };
 
@@ -103,10 +105,10 @@ const ThirdStep = (props) => {
         ...user,
         ...updatedData
       });
-
-      Swal.fire('Awesome!', "You're succesfully registered", 'success').then(
-        (result)=> {
-          if (result.isConfirmed|| result.isDismissed) {
+      Swal.fire('Awesome!', "You're successfully registered!", 'success').then(
+        (result) => {
+          if (result.isConfirmed || result.isDismissed) {
+            props.resetUser();
             //return to start after making a choice
             props.history.push('/');
           }
@@ -116,7 +118,7 @@ const ThirdStep = (props) => {
       if (error.response) {
         Swal.fire({
           icon: 'error',
-          title:'Oops...',
+          title: 'Oops...',
           text: error.response.data
         });
         console.log('error', error.response.data);
@@ -124,11 +126,9 @@ const ThirdStep = (props) => {
     }
   };
 
-
   return (
     <Form className="input-form" onSubmit={handleSubmit}>
       <motion.div
-        className="col-md-6 offset-md-3"
         className="col-md-6 offset-md-3"
         initial={{ x: '-100vw' }}
         animate={{ x: 0 }}
@@ -152,7 +152,8 @@ const ThirdStep = (props) => {
             ))}
           </Form.Control>
         </Form.Group>
-        <Form.Group>
+
+        <Form.Group controlId="state">
           <Form.Label>State</Form.Label>
           <Form.Control
             as="select"
@@ -160,20 +161,20 @@ const ThirdStep = (props) => {
             value={selectedState}
             onChange={(event) => setSelectedState(event.target.value)}
           >
-            {states.length > 0 ?
-              (
-                states.map(({ isoCode, name }) => (
-                  <option value={isoCode} key={isoCode}>
-                    {name}
-                  </option>
-                ))
-              ) : (
-                <option value="" key="">
-                  No state fonund
+            {states.length > 0 ? (
+              states.map(({ isoCode, name }) => (
+                <option value={isoCode} key={isoCode}>
+                  {name}
                 </option>
-              )}
+              ))
+            ) : (
+              <option value="" key="">
+                No state found
+              </option>
+            )}
           </Form.Control>
         </Form.Group>
+
         <Form.Group controlId="city">
           <Form.Label>City</Form.Label>
           <Form.Control
@@ -190,16 +191,16 @@ const ThirdStep = (props) => {
               ))
             ) : (
               <option value="">No cities found</option>
-            )};
+            )}
           </Form.Control>
         </Form.Group>
+
         <Button variant="primary" type="submit">
           Register
         </Button>
       </motion.div>
     </Form>
   );
-
 };
 
 export default ThirdStep;

@@ -4,7 +4,7 @@ import FirstStep from '../components/FirstStep';
 import SecondStep from '../components/SecondStep';
 import ThirdStep from '../components/ThirdStep';
 import Header from '../components/Header';
-
+import Login from '../components/Login';
 
 
 const AppRouter = () => {
@@ -43,6 +43,10 @@ const AppRouter = () => {
 						)}
 						path="/third"
 						exact={true}
+					/>
+					<Route
+						component="{Login}"
+						path="/login"
 					/>
 				</Switch>
 			</div>

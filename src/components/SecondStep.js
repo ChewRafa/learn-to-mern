@@ -21,7 +21,6 @@ const SecondStep = (props) => {
     <Form className="input-form" onSubmit={handleSubmit(onSubmit)}>
       <motion.div
         className="col.md-6 offset-md-3"
-        className="col-md-6 offset-md-3"
         initial={{ x: '-100vw' }}
         animate={{ x: 0 }}
         transition={{ stiffness: 150 }}

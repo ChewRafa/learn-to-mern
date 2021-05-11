@@ -45,7 +45,7 @@ const AppRouter = () => {
 						exact={true}
 					/>
 					<Route
-						component="{Login}"
+						component={Login}
 						path="/login"
 					/>
 				</Switch>
